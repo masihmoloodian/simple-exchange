@@ -34,8 +34,8 @@ export function TypeormDateFilter(
         });
     } else {
         filterDate = new Brackets((qb) => {
-            qb.where('1 =:num', {
-                num: 1,
+            qb.where('1 =:all', {
+                all: 1,
             });
         });
     }
