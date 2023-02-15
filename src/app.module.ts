@@ -1,6 +1,7 @@
-import { CacheModule, Module } from '@nestjs/common';
+import { ValidationPipe, Module } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { APP_PIPE } from '@nestjs/core';
 
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
@@ -31,6 +32,14 @@ import { SocketModule } from './socket/socket.module';
         ScheduleModule.forRoot(),
     ],
     controllers: [AppController],
-    providers: [AppService],
+    providers: [
+        AppService,
+        {
+            provide: APP_PIPE,
+            useValue: new ValidationPipe({
+                whitelist: true,
+            }),
+        },
+    ],
 })
 export class AppModule {}
