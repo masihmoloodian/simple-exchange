@@ -1,4 +1,4 @@
 export enum ExchangeType {
-    LIVE_PRICE = 'LIVE_PRICE',
-    EXCHANGED = 'EXCHANGED',
+    LIVE_PRICE = 'Live Price',
+    EXCHANGED = 'Exchanged',
 }

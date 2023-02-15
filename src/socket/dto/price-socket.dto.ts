@@ -1,5 +1,5 @@
 export class PriceSocketDto {
-    fromCurrency: string;
-    toCurrency: string;
+    currency: string;
+    fiat: string;
     amount: number;
 }

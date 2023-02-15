@@ -61,8 +61,8 @@ export class PriceService {
 
             multiCurrency.push({
                 amount: price,
-                fromCurrency: currency,
-                toCurrency: toCurreny,
+                currency,
+                fiat: toCurreny,
             });
         }
 
