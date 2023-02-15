@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  api:
+    build: .
+    command: /bin/bash -c "npm run start:prod"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql
+    env_file:
+      - .env
+    networks:
+      - redacre
+
+  mysql:
+    image: mysql
+    environment:
+      - MYSQL_USER=redacre
+      - MYSQL_PASSWORD=redacre
+      - MYSQL_ROOT_PASSWORD=redacre
+      - MYSQL_DATABASE=redacre
+    networks:
+      - redacre
+
+networks:
+  redacre:
