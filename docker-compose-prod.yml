@@ -1,0 +1,57 @@
+version: "3.9"
+
+services:
+  #API
+  api:
+    image: redacre/redacre-api:latest
+    hostname: '{{.Node.Hostname}}'
+    command: /bin/bash -c ". /script/secret.sh ; cd /app && npm run start:prod"
+    deploy:
+      mode: replicated
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1024M
+    ports:
+      - 3000:3000
+    networks:
+      - redacre
+    depends_on:
+      - mysql
+    secrets:
+      - mysql_user_secret
+      - mysql_password_secret
+      - mysql_db_secret
+      - crypto_compare_secret
+    env_file:
+      - env.prod
+
+  mysql:
+    image: mysql
+    environment:
+      - MYSQL_USER=redacre
+      - MYSQL_PASSWORD=redacre
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/mysql_password_secret
+      - MYSQL_DATABASE=redacre
+    networks:
+      - redacre
+
+networks:
+  redacre:
+    external: true
+
+secrets:
+  mysql_user_secret:
+    external: true
+  
+  mysql_password_secret:
+    external: true
+
+  mysql_db_secret:
+    external: true
+
+  crypto_compare_secret:
+    external: true
