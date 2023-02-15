@@ -1,6 +1,8 @@
 import { CacheModule, Module } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ExchangeModule } from './exchange/exchange.module';
@@ -9,13 +11,16 @@ import { SocketModule } from './socket/socket.module';
 
 @Module({
     imports: [
+        ConfigModule.forRoot({
+            isGlobal: true,
+        }),
         TypeOrmModule.forRoot({
             type: 'mysql',
-            host: 'localhost',
-            port: 3306,
-            username: 'redacre',
-            password: 'redacre',
-            database: 'redacre',
+            host: process.env.MYSQL_HOST,
+            port: Number(process.env.MYSQL_PORT),
+            username: process.env.MYSQL_USER,
+            password: process.env.MYSQL_PASSWORD,
+            database: process.env.MYSQL_DATABASE,
             entities: ['dist/**/*.entity.js'],
             synchronize: true,
             ssl: false,
