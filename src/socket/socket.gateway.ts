@@ -11,7 +11,7 @@ import { Server, Socket } from 'socket.io';
 import { Injectable, Logger } from '@nestjs/common';
 import { PriceSocketDto } from './dto/price-socket.dto';
 
-@WebSocketGateway()
+@WebSocketGateway({ cors: true })
 @Injectable()
 export class SocketGateway
     implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
