@@ -38,7 +38,7 @@ export class PriceService {
             },
         };
         const res = await fetch(
-            `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC,ETH&tsyms=USD`,
+            `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC,ETH&tsyms=USD,EUR`,
             options
         );
 
