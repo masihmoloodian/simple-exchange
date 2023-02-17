@@ -15,8 +15,8 @@ export class PriceService {
             },
         };
         const res = await fetch(
-            `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC,ETH&tsyms=USD`
-            // options
+            `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC,ETH&tsyms=USD`,
+            options
         );
 
         return res.json();
@@ -27,10 +27,6 @@ export class PriceService {
         const response = await this.getCurencyPrice();
         const fromCurreny = ['BTC', 'ETH'];
         const toCurreny = 'USD';
-
-        console.log(response['RAW']);
-
-        // response['RAW'][`${fromCurreny}`][`${toCurreny}`]['PRICE'];
 
         const multiCurrency: PriceSocketDto[] = [];
 
@@ -43,6 +39,8 @@ export class PriceService {
                 toCurrency: toCurreny,
             });
         }
+
+        console.log(multiCurrency);
 
         this.socketGateway.sendPrice(multiCurrency);
     }

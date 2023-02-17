@@ -7,7 +7,6 @@ import {
     OnGatewayInit,
     WebSocketServer,
 } from '@nestjs/websockets';
-import { SocketService } from './socket.service';
 import { Server, Socket } from 'socket.io';
 import { Injectable, Logger } from '@nestjs/common';
 import { PriceSocketDto } from './dto/price-socket.dto';
@@ -17,8 +16,6 @@ import { PriceSocketDto } from './dto/price-socket.dto';
 export class SocketGateway
     implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
-    constructor(private readonly socketService: SocketService) {}
-
     @WebSocketServer() server: Server;
     private logger: Logger = new Logger('SocketGateway');
 
