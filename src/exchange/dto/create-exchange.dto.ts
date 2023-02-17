@@ -10,7 +10,7 @@ export class CreateExchangeDto {
 
     @ApiProperty()
     @IsNotEmpty()
-    amountFrom: string;
+    amountFrom: number;
 
     @ApiProperty({ enum: CurrentTo })
     @IsNotEmpty()
