@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ExchangeModule } from './exchange/exchange.module';
+import { PriceModule } from './price/price.module';
 
 @Module({
     imports: [
@@ -18,6 +19,7 @@ import { ExchangeModule } from './exchange/exchange.module';
             ssl: false,
         }),
         ExchangeModule,
+        PriceModule,
     ],
     controllers: [AppController],
     providers: [AppService],
