@@ -23,7 +23,9 @@
   "dependencies": {
     "@nestjs/common": "^9.3.9",
     "@nestjs/core": "^9.3.9",
+    "@nestjs/mapped-types": "^1.2.2",
     "@nestjs/platform-express": "^9.3.9",
+    "@nestjs/swagger": "^6.2.1",
     "@nestjs/typeorm": "^9.0.1",
     "dotenv": "^16.0.3",
     "mysql2": "^3.1.2",
