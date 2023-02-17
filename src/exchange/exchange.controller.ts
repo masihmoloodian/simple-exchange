@@ -14,6 +14,7 @@ import { UpdateExchangeDto } from './dto/update-exchange.dto';
 import { PaginationDto } from '../shared/dto/pagination.dto';
 import { ListResponseDTO } from 'src/shared/dto/response.dto';
 import { response } from 'express';
+import { GetExchangeDto } from './dto/get-exchange.dto';
 @Controller('exchange')
 export class ExchangeController {
     constructor(private readonly exchangeService: ExchangeService) {}
@@ -24,7 +25,7 @@ export class ExchangeController {
     }
 
     @Get()
-    async getAll(@Query() dto: PaginationDto) {
+    async getAll(@Query() dto: GetExchangeDto) {
         const response = await this.exchangeService.getAll(dto);
         return new ListResponseDTO(response[0], response[1]);
     }

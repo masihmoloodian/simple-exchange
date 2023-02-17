@@ -8,6 +8,11 @@ import { ExchangeType } from './enum/exchange-type.enum';
 import { paginationCalculator } from '../shared/helper/pagination-calc.helper';
 import { PaginationDto } from 'src/shared/dto/pagination.dto';
 import { TotalSkipDto } from 'src/shared/dto/total-skip.dto';
+import { GetExchangeDto } from './dto/get-exchange.dto';
+import {
+    FilterDateOn,
+    TypeormDateFilter,
+} from 'src/shared/sql/typeorm-date-filter.helper';
 
 @Injectable()
 export class ExchangeService {
@@ -26,16 +31,27 @@ export class ExchangeService {
     }
 
     async getAll(
-        dto: PaginationDto
+        dto: GetExchangeDto
     ): Promise<[ExchangeHistoryEntity[], TotalSkipDto]> {
         const paginationCal = await paginationCalculator(dto?.pageNumber);
         const TAKE = paginationCal[0];
         const SKIP = paginationCal[1];
 
+        const filterDate = await TypeormDateFilter(
+            'e',
+            FilterDateOn.ON_CREATE,
+            dto.fromDate,
+            dto.toDate
+        );
+
         const result = await this.exchangeHistoryRepository
             .createQueryBuilder('e')
             .take(TAKE)
             .skip(SKIP)
+            .andWhere(filterDate)
+            .andWhere(`e.type ${dto.type ? '= :type' : 'IS NOT NULL'}`, {
+                type: dto.type,
+            })
             .getManyAndCount();
 
         const meta: TotalSkipDto = {
