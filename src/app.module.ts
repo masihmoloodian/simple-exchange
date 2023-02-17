@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
+import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ExchangeModule } from './exchange/exchange.module';
 import { PriceModule } from './price/price.module';
+import { SocketModule } from './socket/socket.module';
 
 @Module({
     imports: [
@@ -20,6 +22,8 @@ import { PriceModule } from './price/price.module';
         }),
         ExchangeModule,
         PriceModule,
+        SocketModule,
+        ScheduleModule.forRoot(),
     ],
     controllers: [AppController],
     providers: [AppService],
