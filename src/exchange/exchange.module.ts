@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ExchangeService } from './exchange.service';
 import { ExchangeController } from './exchange.controller';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ExchangeHistoryEntity } from './entities/exchange-history.entity';
 
 @Module({
-  controllers: [ExchangeController],
-  providers: [ExchangeService]
+    imports: [TypeOrmModule.forFeature([ExchangeHistoryEntity])],
+    controllers: [ExchangeController],
+    providers: [ExchangeService],
 })
 export class ExchangeModule {}

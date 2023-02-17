@@ -1,34 +1,31 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+    Controller,
+    Get,
+    Post,
+    Body,
+    Patch,
+    Param,
+    Delete,
+    Query,
+} from '@nestjs/common';
 import { ExchangeService } from './exchange.service';
 import { CreateExchangeDto } from './dto/create-exchange.dto';
 import { UpdateExchangeDto } from './dto/update-exchange.dto';
-
+import { PaginationDto } from '../shared/dto/pagination.dto';
+import { ListResponseDTO } from 'src/shared/dto/response.dto';
+import { response } from 'express';
 @Controller('exchange')
 export class ExchangeController {
-  constructor(private readonly exchangeService: ExchangeService) {}
+    constructor(private readonly exchangeService: ExchangeService) {}
 
-  @Post()
-  create(@Body() createExchangeDto: CreateExchangeDto) {
-    return this.exchangeService.create(createExchangeDto);
-  }
+    @Post()
+    async create(@Body() dto: CreateExchangeDto) {
+        return this.exchangeService.create(dto);
+    }
 
-  @Get()
-  findAll() {
-    return this.exchangeService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.exchangeService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateExchangeDto: UpdateExchangeDto) {
-    return this.exchangeService.update(+id, updateExchangeDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.exchangeService.remove(+id);
-  }
+    @Get()
+    async getAll(@Query() dto: PaginationDto) {
+        const response = await this.exchangeService.getAll(dto);
+        return new ListResponseDTO(response[0], response[1]);
+    }
 }
