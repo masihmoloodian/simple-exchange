@@ -26,6 +26,9 @@ export class ExchangeHistoryEntity extends ParentEntity {
     @Column({ name: 'amount_to' })
     amountTo: string;
 
+    @Column({ name: 'transaction_amount_to' })
+    transactionAmountTo: string;
+
     @Column()
     type: ExchangeType;
 }

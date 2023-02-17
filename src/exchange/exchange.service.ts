@@ -2,29 +2,37 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateExchangeDto } from './dto/create-exchange.dto';
-import { UpdateExchangeDto } from './dto/update-exchange.dto';
 import { ExchangeHistoryEntity } from './entities/exchange-history.entity';
 import { ExchangeType } from './enum/exchange-type.enum';
 import { paginationCalculator } from '../shared/helper/pagination-calc.helper';
-import { PaginationDto } from 'src/shared/dto/pagination.dto';
 import { TotalSkipDto } from 'src/shared/dto/total-skip.dto';
 import { GetExchangeDto } from './dto/get-exchange.dto';
 import {
     FilterDateOn,
     TypeormDateFilter,
 } from 'src/shared/sql/typeorm-date-filter.helper';
+import { PriceService } from 'src/price/price.service';
 
 @Injectable()
 export class ExchangeService {
     constructor(
         @InjectRepository(ExchangeHistoryEntity)
-        private readonly exchangeHistoryRepository: Repository<ExchangeHistoryEntity>
+        private readonly exchangeHistoryRepository: Repository<ExchangeHistoryEntity>,
+        private readonly priceService: PriceService
     ) {}
 
     async create(dto: CreateExchangeDto) {
+        const realTimePrice = await this.priceService.getCurencyPrice(
+            dto.currencyFrom,
+            dto.currencyTo
+        );
+
         return await this.exchangeHistoryRepository.save(
             new ExchangeHistoryEntity({
                 ...dto,
+                amountFrom: String(dto.amountFrom),
+                amountTo: String(dto.amountFrom),
+                transactionAmountTo: realTimePrice,
                 type: ExchangeType.LIVE_PRICE,
             })
         );
