@@ -1,3 +1,3 @@
 export enum CurrentFrom {
-    BITCOIN = 'Bitcoin',
+    BTC = 'BTC',
 }

@@ -1,3 +1,3 @@
 export enum CurrentTo {
-    USD = 'Usd',
+    USD = 'USD',
 }
