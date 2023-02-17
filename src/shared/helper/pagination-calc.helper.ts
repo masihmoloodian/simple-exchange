@@ -8,7 +8,7 @@ import { BadRequestException } from '@nestjs/common';
 export async function paginationCalculator(
     pageNumber: number
 ): Promise<[number, number]> {
-    const TAKE = 12;
+    const TAKE = 4;
     let SKIP = 0;
 
     if (pageNumber) {
