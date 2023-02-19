@@ -1,73 +1,106 @@
-import { Inject, Injectable, CACHE_MANAGER } from '@nestjs/common';
+import { Inject, Injectable, CACHE_MANAGER, forwardRef } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Cache } from 'cache-manager';
-import { CurrentFrom } from 'src/exchange/enum/currency-from.enum';
-import { CurrentTo } from 'src/exchange/enum/currency-to.enum';
+import { CurrencyCrypto } from 'src/exchange/enum/currency-from.enum';
+import { CurrencyFiat } from 'src/exchange/enum/currency-to.enum';
+import { ExchangeType } from 'src/exchange/enum/exchange-type.enum';
+import { ExchangeService } from 'src/exchange/exchange.service';
 import { PriceSocketDto } from 'src/socket/dto/price-socket.dto';
 import { SocketGateway } from 'src/socket/socket.gateway';
+import { Repository } from 'typeorm';
+import { CreatePriceDto } from './dto/create-price-history.dto';
 
 @Injectable()
 export class PriceService {
     constructor(
-        private socketGateway: SocketGateway,
+        private readonly exchangeService: ExchangeService,
+
+        @Inject(forwardRef(() => SocketGateway))
+        private readonly socketGateway: SocketGateway,
         @Inject(CACHE_MANAGER) private cacheManager: Cache
     ) {}
 
-    async getCurencyPrice(fromCurrency: CurrentFrom, toCurrency: CurrentTo) {
-        var options = {
-            method: 'GET',
-            headers: {
-                authorization: `Apikey ${process.env.CRYPTO_COMPARE_KEY}`,
-            },
-        };
+    private fetchOptions = {
+        method: 'GET',
+        headers: {
+            authorization: `Apikey ${process.env.CRYPTO_COMPARE_KEY}`,
+        },
+    };
+
+    /**
+     * Get live price of pair currency
+     * @param crypto eg. BTC
+     * @param fiat eg. USD
+     * @returns Price of pair currency
+     */
+    async getCurencyPrice(crypto: CurrencyCrypto, fiat: CurrencyFiat) {
         const res = await fetch(
-            `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${fromCurrency}&tsyms=${toCurrency}`,
-            options
+            `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${crypto}&tsyms=${fiat}`,
+            this.fetchOptions
         );
 
         const temp = await res.json();
-
-        return temp['RAW'][`${fromCurrency}`][`${toCurrency}`]['PRICE'];
+        return temp['RAW'][`${crypto}`][`${fiat}`]['PRICE'];
     }
 
-    async getCurencyPrices() {
-        var options = {
-            method: 'GET',
-            headers: {
-                authorization: `Apikey ${process.env.CRYPTO_COMPARE_KEY}`,
-            },
-        };
+    /**
+     * Get all price of pair currency with specific style
+     * @returns Array {crypto, fiat, amount}
+     */
+    async getAllLivePriceWithStyle(): Promise<PriceSocketDto[]> {
+        const multiCurrency: PriceSocketDto[] = [];
+        const cryptoList = ['BTC', 'ETH'];
+        const fiatList = ['USD', 'EUR'];
+        const response = await this.getCurencyPrices();
+
+        for (const crypto of cryptoList as any) {
+            for (const fiat of fiatList as any) {
+                let price = response['RAW'][`${crypto}`][`${fiat}`]['PRICE'];
+                await this.exchangeService.create(
+                    {
+                        currencyFrom: crypto,
+                        amountFrom: 1,
+                        currencyTo: fiat,
+                        amountTo: price,
+                    },
+                    ExchangeType.LIVE_PRICE
+                );
+                multiCurrency.push({
+                    amount: price,
+                    crypto,
+                    fiat,
+                });
+            }
+        }
+
+        return multiCurrency;
+    }
+
+    /**
+     * Get all currency prices
+     * @returns All currency prices
+     */
+    private async getCurencyPrices() {
         const res = await fetch(
             `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC,ETH&tsyms=USD,EUR`,
-            options
+            this.fetchOptions
         );
-
         return res.json();
     }
 
-    @Cron('* * * * * *')
+    @Cron('1 * * * * *')
+    /**
+     * Update Price eveny N minute and send on socket
+     */
     async sendPriceOnSocket() {
-        const cache = await this.cacheManager.get('price');
-        if (cache) return cache;
+        console.log('>>>Cron<<<');
 
-        const response = await this.getCurencyPrices();
-        const fromCurreny = ['BTC', 'ETH'];
-        const toCurreny = 'USD';
+        const price = await this.getAllLivePriceWithStyle();
 
-        const multiCurrency: PriceSocketDto[] = [];
+        // Store price in memory to use at socket init connection (prevent DB request)
+        this.cacheManager.set('price', price);
 
-        for (const currency of fromCurreny) {
-            let price = response['RAW'][`${currency}`][`${toCurreny}`]['PRICE'];
-
-            multiCurrency.push({
-                amount: price,
-                currency,
-                fiat: toCurreny,
-            });
-        }
-
-        this.cacheManager.set('price', multiCurrency, 10 * 1000); // 10 Seconds
-
-        this.socketGateway.sendPrice(multiCurrency);
+        this.socketGateway.send('price', price);
     }
 }
