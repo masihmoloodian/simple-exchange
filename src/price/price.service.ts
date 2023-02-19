@@ -26,22 +26,6 @@ export class PriceService {
     };
 
     /**
-     * Get live price of pair currency
-     * @param crypto eg. BTC
-     * @param fiat eg. USD
-     * @returns Price of pair currency
-     */
-    async getCurencyPrice(crypto: CurrencyCrypto, fiat: CurrencyFiat) {
-        const res = await fetch(
-            `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${crypto}&tsyms=${fiat}`,
-            this.fetchOptions
-        );
-
-        const temp = await res.json();
-        return temp['RAW'][`${crypto}`][`${fiat}`]['PRICE'];
-    }
-
-    /**
      * Get all price of pair currency with specific style
      * @returns Array {crypto, fiat, amount}
      */
@@ -79,11 +63,15 @@ export class PriceService {
      * @returns All currency prices
      */
     private async getCurencyPrices() {
-        const res = await fetch(
-            `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC,ETH&tsyms=USD,EUR`,
-            this.fetchOptions
-        );
-        return res.json();
+        try {
+            const res = await fetch(
+                `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC,ETH&tsyms=USD,EUR`,
+                this.fetchOptions
+            );
+            return res.json();
+        } catch (err) {
+            throw new Error('Cant fetch currency prices: ' + err);
+        }
     }
 
     @Cron('1 * * * * *')
@@ -91,8 +79,6 @@ export class PriceService {
      * Update Price eveny N minute and send on socket
      */
     async sendPriceOnSocket() {
-        console.log('>>>Cron<<<');
-
         const price = await this.getAllLivePriceWithStyle();
 
         // Store price in memory to use at socket init connection (prevent DB request)
