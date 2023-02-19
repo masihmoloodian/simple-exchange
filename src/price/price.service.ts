@@ -1,15 +1,12 @@
 import { Inject, Injectable, CACHE_MANAGER, forwardRef } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Cache } from 'cache-manager';
-import { CurrencyCrypto } from 'src/exchange/enum/currency-from.enum';
-import { CurrencyFiat } from 'src/exchange/enum/currency-to.enum';
-import { ExchangeType } from 'src/exchange/enum/exchange-type.enum';
-import { ExchangeService } from 'src/exchange/exchange.service';
-import { PriceSocketDto } from 'src/socket/dto/price-socket.dto';
-import { SocketGateway } from 'src/socket/socket.gateway';
-import { Repository } from 'typeorm';
-import { CreatePriceDto } from './dto/create-price-history.dto';
+import { CurrencyCrypto } from '../exchange/enum/currency-from.enum';
+import { CurrencyFiat } from '../exchange/enum/currency-to.enum';
+import { ExchangeType } from '../exchange/enum/exchange-type.enum';
+import { ExchangeService } from '../exchange/exchange.service';
+import { PriceSocketDto } from '../socket/dto/price-socket.dto';
+import { SocketGateway } from '../socket/socket.gateway';
 
 @Injectable()
 export class PriceService {
