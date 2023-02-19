@@ -17,23 +17,19 @@ import { PriceService } from 'src/price/price.service';
 export class ExchangeService {
     constructor(
         @InjectRepository(ExchangeHistoryEntity)
-        private readonly exchangeHistoryRepository: Repository<ExchangeHistoryEntity>,
-        private readonly priceService: PriceService
+        private readonly exchangeHistoryRepository: Repository<ExchangeHistoryEntity>
     ) {}
 
-    async create(dto: CreateExchangeDto) {
-        const realTimePrice = await this.priceService.getCurencyPrice(
-            dto.currencyFrom,
-            dto.currencyTo
-        );
-
+    async create(
+        dto: CreateExchangeDto,
+        type?: ExchangeType
+    ): Promise<ExchangeHistoryEntity> {
         return await this.exchangeHistoryRepository.save(
             new ExchangeHistoryEntity({
                 ...dto,
                 amountFrom: String(dto.amountFrom),
-                amountTo: String(dto.amountFrom),
-                transactionAmountTo: realTimePrice,
-                type: ExchangeType.LIVE_PRICE,
+                amountTo: String(dto.amountTo),
+                type: type ? type : ExchangeType.EXCHANGED,
             })
         );
     }
@@ -41,6 +37,8 @@ export class ExchangeService {
     async getAll(
         dto: GetExchangeDto
     ): Promise<[ExchangeHistoryEntity[], TotalSkipDto]> {
+        console.log({ dto });
+
         const paginationCal = await paginationCalculator(dto?.pageNumber);
         const TAKE = paginationCal[0];
         const SKIP = paginationCal[1];
@@ -60,6 +58,7 @@ export class ExchangeService {
             .andWhere(`e.type ${dto.type ? '= :type' : 'IS NOT NULL'}`, {
                 type: dto.type,
             })
+            .orderBy({ 'e.created_at': 'DESC' })
             .getManyAndCount();
 
         const meta: TotalSkipDto = {

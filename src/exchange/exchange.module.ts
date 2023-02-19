@@ -6,8 +6,9 @@ import { ExchangeHistoryEntity } from './entities/exchange-history.entity';
 import { PriceModule } from 'src/price/price.module';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([ExchangeHistoryEntity]), PriceModule],
+    imports: [TypeOrmModule.forFeature([ExchangeHistoryEntity])],
     controllers: [ExchangeController],
     providers: [ExchangeService],
+    exports: [ExchangeService],
 })
 export class ExchangeModule {}
