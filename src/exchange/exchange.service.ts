@@ -19,6 +19,12 @@ export class ExchangeService {
         private readonly exchangeHistoryRepository: Repository<ExchangeHistoryEntity>
     ) {}
 
+    /**
+     * Create a new exchange record
+     * @param dto CreateExchangeDto
+     * @param type ExchangeType
+     * @returns Array of exchanges, ExchangeHistoryEntity[]
+     */
     async create(
         dto: CreateExchangeDto,
         type?: ExchangeType
@@ -33,11 +39,14 @@ export class ExchangeService {
         );
     }
 
+    /**
+     * Get all exchange records
+     * @param dto GetExchangeDto
+     * @returns Return array, first index: exchanges | second index: Paginate data | [ExchangeHistoryEntity[], TotalSkipDto]
+     */
     async getAll(
         dto: GetExchangeDto
     ): Promise<[ExchangeHistoryEntity[], TotalSkipDto]> {
-        console.log({ dto });
-
         const paginationCal = await paginationCalculator(dto?.pageNumber);
         const TAKE = paginationCal[0];
         const SKIP = paginationCal[1];
