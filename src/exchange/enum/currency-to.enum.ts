@@ -1,3 +1,4 @@
-export enum CurrentTo {
+export enum CurrencyFiat {
     USD = 'USD',
+    EUR = 'EUR',
 }

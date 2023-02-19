@@ -1,3 +1,4 @@
-export enum CurrentFrom {
+export enum CurrencyCrypto {
     BTC = 'BTC',
+    ETH = 'ETH',
 }
