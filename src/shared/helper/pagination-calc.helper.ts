@@ -1,9 +1,9 @@
 import { BadRequestException } from '@nestjs/common';
 
 /**
- *
+ * Calculate pagination by pass page number
  * @param pageNumber
- * @returns [TAKE, SKIP]
+ * @returns Return [TAKE, SKIP]
  */
 export async function paginationCalculator(
     pageNumber: number
