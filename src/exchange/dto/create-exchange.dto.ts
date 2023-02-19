@@ -1,21 +1,26 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
-import { CurrentFrom } from '../enum/currency-from.enum';
-import { CurrentTo } from '../enum/currency-to.enum';
+import { CurrencyCrypto } from '../enum/currency-from.enum';
+import { CurrencyFiat } from '../enum/currency-to.enum';
 
 export class CreateExchangeDto {
-    @ApiProperty({ enum: CurrentFrom })
+    @ApiProperty({ enum: CurrencyCrypto })
     @IsNotEmpty()
-    @IsEnum(CurrentFrom)
-    currencyFrom: CurrentFrom;
+    @IsEnum(CurrencyCrypto)
+    currencyFrom: CurrencyCrypto;
 
     @ApiProperty()
     @IsNotEmpty()
     @IsNumber()
     amountFrom: number;
 
-    @ApiProperty({ enum: CurrentTo })
+    @ApiProperty({ enum: CurrencyFiat })
     @IsNotEmpty()
-    @IsEnum(CurrentTo)
-    currencyTo: CurrentTo;
+    @IsEnum(CurrencyFiat)
+    currencyTo: CurrencyFiat;
+
+    @ApiProperty()
+    @IsNotEmpty()
+    @IsNumber()
+    amountTo: number;
 }
