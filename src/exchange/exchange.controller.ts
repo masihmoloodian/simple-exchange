@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Query } from '@nestjs/common';
 import { ExchangeService } from './exchange.service';
 import { CreateExchangeDto } from './dto/create-exchange.dto';
-import { ListResponseDTO, ResponseDTO } from 'src/shared/dto/response.dto';
+import { ListResponseDTO, ResponseDTO } from '../shared/dto/response.dto';
 import { GetExchangeDto } from './dto/get-exchange.dto';
 import { ApiOperation } from '@nestjs/swagger';
 @Controller('exchange')

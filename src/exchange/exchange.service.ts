@@ -5,13 +5,12 @@ import { CreateExchangeDto } from './dto/create-exchange.dto';
 import { ExchangeHistoryEntity } from './entities/exchange-history.entity';
 import { ExchangeType } from './enum/exchange-type.enum';
 import { paginationCalculator } from '../shared/helper/pagination-calc.helper';
-import { TotalSkipDto } from 'src/shared/dto/total-skip.dto';
+import { TotalSkipDto } from '../shared/dto/total-skip.dto';
 import { GetExchangeDto } from './dto/get-exchange.dto';
 import {
     FilterDateOn,
     TypeormDateFilter,
-} from 'src/shared/sql/typeorm-date-filter.helper';
-import { PriceService } from 'src/price/price.service';
+} from '../shared/sql/typeorm-date-filter.helper';
 
 @Injectable()
 export class ExchangeService {

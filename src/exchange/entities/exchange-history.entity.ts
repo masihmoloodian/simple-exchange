@@ -1,4 +1,4 @@
-import { ParentEntity } from 'src/shared/entities/base.entity';
+import { ParentEntity } from '../../shared/entities/base.entity';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { CurrencyCrypto } from '../enum/currency-from.enum';
 import { CurrencyFiat } from '../enum/currency-to.enum';
