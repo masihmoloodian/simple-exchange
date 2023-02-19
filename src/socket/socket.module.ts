@@ -1,5 +1,5 @@
 import { CacheModule, forwardRef, Module } from '@nestjs/common';
-import { PriceModule } from 'src/price/price.module';
+import { PriceModule } from '../price/price.module';
 import { SocketGateway } from './socket.gateway';
 
 @Module({

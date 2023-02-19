@@ -15,7 +15,7 @@ import {
     forwardRef,
 } from '@nestjs/common';
 import { Cache } from 'cache-manager';
-import { PriceService } from 'src/price/price.service';
+import { PriceService } from '../price/price.service';
 
 @WebSocketGateway({ cors: true })
 @Injectable()
