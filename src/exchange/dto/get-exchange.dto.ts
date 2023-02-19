@@ -4,11 +4,11 @@ import { ExchangeType } from '../enum/exchange-type.enum';
 
 export class GetExchangeDto extends PaginationDto {
     @ApiPropertyOptional({ example: new Date() })
-    fromDate: Date;
+    fromDate?: Date;
 
     @ApiPropertyOptional({ example: new Date() })
-    toDate: Date;
+    toDate?: Date;
 
     @ApiPropertyOptional({ enum: ExchangeType })
-    type: ExchangeType;
+    type?: ExchangeType;
 }
