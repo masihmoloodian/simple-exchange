@@ -46,3 +46,8 @@ Note: Change private registry at both files(`docker-compose-build.yml` and `dock
 -   4: Build image `docker compose -f docker-compose-build.yml build`
 -   5: Push image to registry`docker compose -f docker-compose-build.yml push`
 -   6: Deploy to cluster `docker stack deploy --with-registry-auth --compose-file docker-compose-prod.yml PROD-redacre`
+
+## Run Tests
+
+-   Unit test `npn run test`
+-   e2e test `npn run test:e2e`
