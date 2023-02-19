@@ -36,9 +36,7 @@ import { SocketModule } from './socket/socket.module';
         AppService,
         {
             provide: APP_PIPE,
-            useValue: new ValidationPipe({
-                whitelist: true,
-            }),
+            useValue: new ValidationPipe({}),
         },
     ],
 })
