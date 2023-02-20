@@ -1,8 +1,12 @@
-import { Inject, Injectable, CACHE_MANAGER, forwardRef } from '@nestjs/common';
+import {
+    Inject,
+    Injectable,
+    CACHE_MANAGER,
+    forwardRef,
+    ServiceUnavailableException,
+} from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { Cache } from 'cache-manager';
-import { CurrencyCrypto } from '../exchange/enum/currency-from.enum';
-import { CurrencyFiat } from '../exchange/enum/currency-to.enum';
 import { ExchangeType } from '../exchange/enum/exchange-type.enum';
 import { ExchangeService } from '../exchange/exchange.service';
 import { PriceSocketDto } from '../socket/dto/price-socket.dto';
@@ -37,7 +41,7 @@ export class PriceService {
 
         for (const crypto of cryptoList as any) {
             for (const fiat of fiatList as any) {
-                let price = response['RAW'][`${crypto}`][`${fiat}`]['PRICE'];
+                const price = response['RAW'][`${crypto}`][`${fiat}`]['PRICE'];
                 await this.exchangeService.create(
                     {
                         currencyFrom: crypto,
@@ -70,7 +74,9 @@ export class PriceService {
             );
             return res.json();
         } catch (err) {
-            throw new Error('Cant fetch currency prices: ' + err);
+            throw new ServiceUnavailableException(
+                'Price service is unavailable'
+            );
         }
     }
 

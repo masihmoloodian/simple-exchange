@@ -31,7 +31,7 @@ docker compose -f docker-compose-dev.yml up -d
 ### Run the application for production environment
 
 Run mysql and application with `docker stack` (replicated-mode, secrets)  
-Before get start inital docker swarm with `docker swarm init ` and join workers if you want (in this example we skip labeling the nodes but its better to lable the workers and add the lables to docker-compose file)
+Before get start, inital docker swarm with `docker swarm init ` and join workers if you want (in this example we skip labeling the nodes but its better to lable the nodes and then add the lables to docker-compose file)
 
 Note: Change private registry at both files(`docker-compose-build.yml` and `docker-compose-prod.yml`)
 
