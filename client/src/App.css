@@ -1,0 +1,126 @@
+
+
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+section.ant-layout{
+  background-color: #ffffff;
+}
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.historyTable tr:nth-child(even) { background-color: #f2f2f2 }
+.container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 768px){
+  .container{
+
+    max-width:720px
+  }
+}
+@media (min-width: 992px){
+  .container{
+
+    max-width:960px
+  }
+}
+@media (min-width: 1400px){
+  .container{
+
+    max-width:1340px
+  }
+}
+.App .header::after{
+  content: "";
+  box-shadow: 0px 20px 15px 0 #8a8a8a;
+  position: absolute;
+}
+.App .header,.App .history{
+background-color: #ffffff;
+padding: 30px 0;
+}
+.App .header{
+  box-shadow: 0px 17px 15px 0 #8a8a8a40;
+  margin-bottom: 55px;
+}
+
+.App .box-form{
+  width: 100% !important;
+}
+.ant-col{
+  margin-right: 10px;
+}
+.label-head{
+  color: #b5b5b5;
+margin-bottom: 5px;
+display: block;
+font-size: 12px;
+}
+.btn{
+  display: flex;
+  flex-direction: column-reverse;
+}
+.btn Button{
+  background-color: #49cd5e;
+  color: #ffffff;
+}
+.btn-tus{
+  background: #eee;
+}
+.foot ul li.ant-pagination-item{
+  background-color: #000000;
+  
+  border: 0;
+}
+.foot ul li.ant-pagination-item a{
+  color: #ffffff !important;
+}
+.ant-message{
+  position: relative;
+}
+.ant-message .ant-message-notice{
+  width: 100%;
+  padding: 0;
+}
+.ant-message .ant-message-notice .ant-message-notice-content{
+  width: 100%;
+  border-radius: 0;
+  color: rgba(255, 255, 255, 0.88);
+  background-color: #49cd5e;
+}
+
+.wrapper-label {
+  display: flex;
+  gap: 0.5em;
+  align-items: center;
+}
