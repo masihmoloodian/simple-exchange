@@ -24,7 +24,7 @@ function App() {
 
     useEffect(() => {
         // Get Table data from api
-        fetchRecords(1, '', '', '');
+        fetchRecords(1, dateFilter.fromDate, dateFilter.toDate, exchangeType);
 
         socket.current = io(SOCKET_BASE_URL, {
             transport: ["websocket"],
