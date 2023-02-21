@@ -8,7 +8,7 @@ import { PriceService } from './price.service';
     imports: [
         TypeOrmModule.forFeature(),
         SocketModule,
-        CacheModule.register(),
+        // CacheModule.register(),
         forwardRef(() => ExchangeModule),
     ],
     providers: [PriceService],

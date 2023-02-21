@@ -3,7 +3,7 @@ import { PriceModule } from '../price/price.module';
 import { SocketGateway } from './socket.gateway';
 
 @Module({
-    imports: [CacheModule.register(), forwardRef(() => PriceModule)],
+    imports: [forwardRef(() => PriceModule)],
     providers: [SocketGateway],
     exports: [SocketGateway],
 })

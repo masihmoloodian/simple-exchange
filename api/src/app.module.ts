@@ -1,4 +1,4 @@
-import { ValidationPipe, Module } from '@nestjs/common';
+import { ValidationPipe, Module, CacheModule } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_PIPE } from '@nestjs/core';
@@ -30,6 +30,10 @@ import { SocketModule } from './socket/socket.module';
         PriceModule,
         SocketModule,
         ScheduleModule.forRoot(),
+        CacheModule.register({
+            isGlobal: true,
+
+        }),
     ],
     controllers: [AppController],
     providers: [
