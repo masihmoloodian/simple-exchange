@@ -88,8 +88,7 @@ export class PriceService {
         const price = await this.getAllLivePriceWithStyle();
 
         // Store price in memory to use at socket init connection (prevent DB request)
-        this.cacheManager.set('price', price);
-
+        await this.cacheManager.set('price', price, 0);
         this.socketGateway.send('price', price);
     }
 }

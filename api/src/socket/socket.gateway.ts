@@ -40,9 +40,7 @@ export class SocketGateway
         this.logger.log(`Socket Client connected: ${client.id}`);
 
         // Send price to client when connected
-        let price = await this.cacheManager.get('price');
-        if (!price) price = await this.priceService.getAllLivePriceWithStyle();
-
+        const price = await this.cacheManager.get('price');
         this.send('price', price);
     }
 
