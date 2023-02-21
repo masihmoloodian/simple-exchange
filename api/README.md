@@ -8,6 +8,8 @@
 -   npm
 
 ## Run the application (development, production)
+- Application running at port `3000`   
+- Swagger running at `/api/doc` path 
 
 ### Run the application for development environment
 
