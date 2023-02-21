@@ -13,12 +13,20 @@ io.on("connection", (socket) => {
 
     socket.emit("price", {
       BTC: {
-        USD: btcUsdPrice,
-        EUR: btcEurPrice,
+        USD: {
+          amount: btcUsdPrice
+        },
+        EUR: {
+          amount: btcEurPrice
+        },
       },
       ETH: {
-        USD: ethUsdPrice,
-        EUR: ethEurPrice,
+        USD: {
+          amount: ethUsdPrice
+        },
+        EUR: {
+          amount: ethEurPrice
+        },
       },
     });
   }, 1000);
