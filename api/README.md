@@ -49,5 +49,5 @@ Note: Change private registry at both files(`docker-compose-build.yml` and `dock
 
 ## Run Tests
 
--   Unit test `npn run test`
--   e2e test `npn run test:e2e`
+-   Unit test `npm run test`
+-   e2e test `npm run test:e2e`
