@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useEffect, useState, useRef } from 'react';
 import { io } from 'socket.io-client';
 const BASE_URL = process.env.REACT_APP_API_BASE_URL
+const SOCKET_BASE_URL = process.env.REACT_APP_SOCKET_BASE_URL
 
 function App() {
 
@@ -25,7 +26,7 @@ function App() {
         // Get Table data from api
         fetchRecords(1, '', '', '');
 
-        socket.current = io(BASE_URL, {
+        socket.current = io(SOCKET_BASE_URL, {
             transport: ["websocket"],
         });
         socket.current.on("price", (data) => {
@@ -51,7 +52,7 @@ function App() {
     const handleSwapClick = () => {
         setLoading(true);
         axios
-        .post('http://localhost:3000/exchange',
+        .post(`${BASE_URL}/exchange`,
             {
                 "currencyFrom": swapForm.currencyFrom,
                 "amountFrom": swapForm.amountFrom,
