@@ -80,7 +80,7 @@ export class PriceService {
         }
     }
 
-    @Cron('1 * * * * *')
+    @Cron('0 * * * *')
     /**
      * Update Price eveny N minute and send on socket
      */
