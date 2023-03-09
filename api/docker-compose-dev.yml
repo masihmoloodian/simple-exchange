@@ -11,17 +11,17 @@ services:
     env_file:
       - .env
     networks:
-      - redacre
+      - mynet
 
   mysql:
     image: mysql
     environment:
-      - MYSQL_USER=redacre
-      - MYSQL_PASSWORD=redacre
-      - MYSQL_ROOT_PASSWORD=redacre
-      - MYSQL_DATABASE=redacre
+      - MYSQL_USER=changeme
+      - MYSQL_PASSWORD=changeme
+      - MYSQL_ROOT_PASSWORD=changeme
+      - MYSQL_DATABASE=changeme
     networks:
-      - redacre
+      - mynet
 
 networks:
-  redacre:
+  mynet:

@@ -6,7 +6,7 @@ services:
     ports:
       - 127.0.0.1:3306:3306
     environment:
-      - MYSQL_USER=redacre
-      - MYSQL_PASSWORD=redacre
-      - MYSQL_ROOT_PASSWORD=redacre
-      - MYSQL_DATABASE=redacre
+      - MYSQL_USER=changeme
+      - MYSQL_PASSWORD=changeme
+      - MYSQL_ROOT_PASSWORD=changeme
+      - MYSQL_DATABASE=changeme

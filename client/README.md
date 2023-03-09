@@ -1,5 +1,3 @@
-# RedAcre Assessment
-
 ## Requirements
 
 -   docker

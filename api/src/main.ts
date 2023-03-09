@@ -18,8 +18,8 @@ async function bootstrap() {
 
     const options = new DocumentBuilder()
         .addBearerAuth()
-        .setTitle('RedAcre')
-        .setDescription('The RedAcre API description')
+        .setTitle('Exchange')
+        .setDescription('The Exchange API description')
         .build();
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('api/doc', app, document);

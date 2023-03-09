@@ -3,7 +3,7 @@ version: "3.9"
 services:
   #API
   api:
-    image: redacre/redacre-api:latest
+    image: masihmoloodian/simple-exchange-api:latest
     hostname: '{{.Node.Hostname}}'
     command: /bin/bash -c ". /script/secret.sh ; cd /app && npm run start:prod"
     deploy:
@@ -18,7 +18,7 @@ services:
     ports:
       - 3000:3000
     networks:
-      - redacre
+      - mynet
     depends_on:
       - mysql
     secrets:
@@ -32,15 +32,15 @@ services:
   mysql:
     image: mysql
     environment:
-      - MYSQL_USER=redacre
-      - MYSQL_PASSWORD=redacre
+      - MYSQL_USER=changeme
+      - MYSQL_PASSWORD=changeme
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/mysql_password_secret
-      - MYSQL_DATABASE=redacre
+      - MYSQL_DATABASE=changeme
     networks:
-      - redacre
+      - mynet
 
 networks:
-  redacre:
+  mynet:
     external: true
 
 secrets:
